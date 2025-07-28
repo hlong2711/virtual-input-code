@@ -28,6 +28,12 @@ export class VCodeField extends Component {
         this.editBox.string = '';
         this.editBox.node.on('text-changed', this.onFakeEditTextBoxChanged, this);
 
+        // test schedule
+        this.scheduleOnce(this.runScheduleOnce, 1.0);
+    }
+
+    runScheduleOnce() {
+        console.log("Schedule once executed");
     }
 
     start() {
