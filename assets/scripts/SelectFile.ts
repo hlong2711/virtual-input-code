@@ -1,4 +1,4 @@
-import { _decorator, Component, Label, Node } from 'cc';
+import { _decorator, Component, ImageAsset, Label, Node, Size, Sprite, SpriteFrame, Texture2D } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('SelectFile')
@@ -6,8 +6,13 @@ export class SelectFile extends Component {
     @property(Label)
     selectFileLabel: Label = null;
 
+    @property(Node)
+    avatarNode: Node = null;
+
     start() {
         this.selectFileLabel.node.active = false;
+
+        this.node.on('image-selected', this.onImageSelected.bind(this), this);
     }
 
 
@@ -27,6 +32,13 @@ export class SelectFile extends Component {
                 this.selectFileLabel.string = `File: ${file.name}, ${file.size} bytes`;
 
                 element.remove();
+
+                this.node.emit('image-selected', {
+                    fileName: file.name,
+                    fileSize: file.size,
+                    fileType: file.type,
+                    fileData: e.target.result
+                });
             }
 
             reader.readAsDataURL(file);
@@ -37,6 +49,38 @@ export class SelectFile extends Component {
         element.click();
     }
 
+    onImageSelected(args: {
+        fileName: string,
+        fileSize: string,
+        fileType: string,
+        fileData: string,
+    }) {
+        console.log('Image selected:', args);
+        const data = args.fileData;
+
+        const image = new Image();
+        image.src = data;
+
+        image.onload = () => {
+            // Resize the image if necessary
+            console.log('Image size loaded:', image.width, image.height);
+
+            if (this.avatarNode) {
+
+                const asset = new ImageAsset(image);
+                const texture = new Texture2D();
+                texture.image = asset;
+
+                const spriteFrame = new SpriteFrame();
+                spriteFrame.texture = texture;
+
+                this.avatarNode.getComponent(Sprite).spriteFrame = spriteFrame;
+            }
+        };
+
+        image.onerror = (err) => {
+            console.error('Error loading image:', err);
+        };
+    }
 
 }
-
