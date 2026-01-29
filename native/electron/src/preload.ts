@@ -1,4 +1,4 @@
-import { contextBridge } from 'electron';
+import { contextBridge, ipcRenderer } from 'electron';
 
 contextBridge.exposeInMainWorld('versions', {
   node: () => process.versions.node,
@@ -6,3 +6,10 @@ contextBridge.exposeInMainWorld('versions', {
   electron: () => process.versions.electron,
   // we can also expose variables, not just functions
 });
+
+contextBridge.exposeInMainWorld("nativeAPI", {
+  log: (msg?: string) => {
+    console.log(`Preload call log: ${msg}`);
+    ipcRenderer.send("log-message", msg);
+  }
+})

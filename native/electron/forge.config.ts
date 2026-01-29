@@ -47,6 +47,21 @@ module.exports = {
       console.log(`>>> election preStart hook`);
       await fs.cp('../../build/web-mobile/', './dist/web-mobile/', {recursive: true});
       
+      // inject renderer script
+      const script = `<script>
+    System.import('./../renderer.js')
+    .then(function() {
+      console.log('load electron renderer done!')
+    })
+    .catch(function(err) {console.error(err);})
+</script>`;
+
+      const indexPath = './dist/web-mobile/index.html';
+      let indexContent = await fs.readFile(indexPath, { encoding: 'utf-8' });
+      indexContent = indexContent.replace('</body>', `${script}\n</body>`);
+      await fs.writeFile(indexPath, indexContent, { encoding: 'utf-8' });
+
+      console.log(`>>> injected renderer script into ${indexPath}`);
     },
   }
 };

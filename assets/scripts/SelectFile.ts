@@ -1,4 +1,5 @@
 import { _decorator, Component, ImageAsset, Label, Node, Size, Sprite, SpriteFrame, Texture2D } from 'cc';
+import { electron } from './lib/electron';
 const { ccclass, property } = _decorator;
 
 @ccclass('SelectFile')
@@ -17,6 +18,8 @@ export class SelectFile extends Component {
 
 
     onSelectFileClick() {
+        electron.log('Select file button clicked @@@@');
+
         const element = document.createElement('input');
         element.type = 'file';
         element.accept = 'image/png, image/jpg, image/jpeg';
