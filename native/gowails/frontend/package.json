@@ -3,11 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev": "vite serve dist",
+    "build": "rimraf dest && tsx copy-web.ts",
+    "build_template": "tsc && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
+    "rimraf": "^6.1.2",
+    "tsx": "^4.21.0",
     "typescript": "^4.5.4",
     "vite": "^3.0.7"
   }
