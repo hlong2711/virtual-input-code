@@ -4,13 +4,14 @@ import { registerHandler } from './handlers';
 
 const createWindow = (): void => {
   const win = new BrowserWindow({
-    width: 480,
-    height: 800,
+    width: 540,
+    height: 960,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
   });
 
+  win.setAspectRatio(9 / 16);
   win.loadFile(path.join(__dirname, 'web-mobile/index.html'));
   // win.loadURL("http://localhost:7456")
 
