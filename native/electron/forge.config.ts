@@ -1,3 +1,4 @@
+import type { ForgeConfig } from '@electron-forge/shared-types';
 import { FusesPlugin } from '@electron-forge/plugin-fuses';
 import { FuseV1Options, FuseVersion } from '@electron/fuses';
 import * as fs from 'fs/promises';
@@ -5,6 +6,13 @@ import * as fs from 'fs/promises';
 module.exports = {
   packagerConfig: {
     asar: true,
+    ignore: [
+      "src",
+      "tsconfig.json",
+      "forge.config.ts",
+      "index.html",
+      ".gitignore"
+    ]
   },
   rebuildConfig: {},
   makers: [
@@ -64,4 +72,4 @@ module.exports = {
       console.log(`>>> injected renderer script into ${indexPath}`);
     },
   }
-};
+} as ForgeConfig;
