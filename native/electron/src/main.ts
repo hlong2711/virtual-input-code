@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from 'electron';
 import * as path from 'node:path';
 import { registerHandler } from './handlers';
+import { setAppMenu } from './menu';
 
 const createWindow = (): void => {
   const win = new BrowserWindow({
@@ -11,11 +12,11 @@ const createWindow = (): void => {
     },
   });
 
-  win.setAspectRatio(9 / 16);
+  win.setAspectRatio(9 / 16, { width: 0, height: 0 });
   win.loadFile(path.join(__dirname, 'web-mobile/index.html'));
   // win.loadURL("http://localhost:7456")
 
-  win.webContents.openDevTools();
+  setAppMenu();
 };
 
 app.whenReady().then(() => {
