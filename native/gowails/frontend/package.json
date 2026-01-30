@@ -3,8 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite serve dist",
-    "build": "rimraf dest && tsx copy-web.ts",
+    "dev": "tsx link-web.ts && vite serve web-link",
+    "build": "rimraf dist && tsx copy-web.ts",
     "build_template": "tsc && vite build",
     "preview": "vite preview"
   },
